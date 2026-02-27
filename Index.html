@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ระบบร่าง Resume ผลการดำเนินงาน Flagship | กฟผ.</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700&family=IBM+Plex+Sans+Thai:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --navy-mid: #132040;
+    --blue: #1a4fa0;
+    --blue-light: #2d6fd6;
+    --accent: #e8a020;
+    --accent-light: #f5c050;
+    --surface: #f4f6fa;
+    --surface2: #eaecf2;
+    --text: #1a1f2e;
+    --text-muted: #6b7280;
+    --border: #d0d5e8;
+    --white: #ffffff;
+    --success: #16a34a;
+    --red: #dc2626;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--surface);
+    color: var(--text);
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: var(--navy);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 32px;
+    border-bottom: 3px solid var(--accent);
+  }
+  .logo-badge {
+    width: 44px; height: 44px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 13px; color: var(--navy);
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+  }
+  .header-title { color: white; }
+  .header-title h1 { font-size: 17px; font-weight: 600; font-family: 'IBM Plex Sans Thai', sans-serif; }
+  .header-title p { font-size: 12px; color: rgba(255,255,255,0.55); margin-top: 1px; }
+
+
+  /* LAYOUT */
+  .app-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr;
+    gap: 0;
+    min-height: calc(100vh - 80px);
+  }
+
+  /* SIDEBAR */
+  .sidebar {
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    padding: 24px;
+    overflow-y: auto;
+    max-height: calc(100vh - 80px);
+    position: sticky;
+    top: 80px;
+  }
+  .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--blue-light);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 5px;
+  }
+  .form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 9px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 7px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 14px;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.2s;
+  }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+    outline: none;
+    border-color: var(--blue-light);
+    background: white;
+  }
+  .form-group textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+
+  .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+
+  /* TYPE TOGGLE */
+  .type-toggle {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 20px;
+  }
+  .type-btn {
+    flex: 1;
+    padding: 9px 8px;
+    border: 2px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    color: var(--text-muted);
+  }
+  .type-btn.active {
+    border-color: var(--blue-light);
+    background: #eef4ff;
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  /* PLAN ADJUSTMENT CARDS */
+  .adjust-section {
+    background: #f8faff;
+    border: 1.5px dashed var(--blue-light);
+    border-radius: 10px;
+    padding: 14px;
+    margin-top: 16px;
+  }
+  .adjust-section .section-label { border-color: var(--accent); color: var(--accent); }
+
+  .plan-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 10px;
+    position: relative;
+  }
+  .plan-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .plan-card-num {
+    font-size: 11px;
+    background: var(--blue);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-weight: 600;
+  }
+  .btn-remove {
+    background: none;
+    border: none;
+    color: var(--red);
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    padding: 2px;
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    width: 100%;
+    padding: 12px;
+    background: var(--blue);
+    color: white;
+    border: none;
+    border-radius: 9px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 20px;
+  }
+  .btn-primary:hover { background: var(--blue-light); transform: translateY(-1px); }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-add {
+    width: 100%;
+    padding: 9px;
+    background: white;
+    color: var(--blue);
+    border: 2px dashed var(--blue-light);
+    border-radius: 7px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 6px;
+  }
+  .btn-add:hover { background: #eef4ff; }
+
+  /* OUTPUT PANEL */
+  .output-panel {
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+  }
+  .output-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .output-toolbar h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--navy);
+    font-family: 'IBM Plex Sans Thai', sans-serif;
+  }
+  .toolbar-actions { display: flex; gap: 8px; }
+  .btn-copy, .btn-clear {
+    padding: 8px 16px;
+    border-radius: 7px;
+    font-family: 'Sarabun', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1.5px solid;
+  }
+  .btn-copy {
+    background: var(--navy);
+    color: white;
+    border-color: var(--navy);
+  }
+  .btn-copy:hover { background: var(--blue); border-color: var(--blue); }
+  .btn-copy.copied { background: var(--success); border-color: var(--success); }
+  .btn-docx {
+    background: white;
+    color: var(--navy);
+    border-color: var(--navy);
+  }
+  .btn-docx:hover { background: var(--navy); color: white; }
+  .btn-docx:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-pdf {
+    background: white;
+    color: #c0392b;
+    border-color: #c0392b;
+  }
+  .btn-pdf:hover { background: #c0392b; color: white; }
+  .btn-pdf:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-clear {
+    background: white;
+    color: var(--text-muted);
+    border-color: var(--border);
+  }
+  .btn-clear:hover { border-color: var(--red); color: var(--red); }
+
+  .output-box {
+    flex: 1;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    padding: 32px 36px;
+    font-size: 15px;
+    line-height: 2;
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    min-height: 500px;
+    overflow-y: auto;
+    position: relative;
+  }
+  .memo-text { white-space: pre-wrap; line-height: 2; }
+
+  /* Memo table styles */
+  .memo-table-wrap { overflow-x: auto; margin: 12px 0 16px 0; }
+  .memo-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  .memo-table th {
+    background: var(--navy);
+    color: white;
+    padding: 9px 12px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #334;
+    white-space: nowrap;
+  }
+  .memo-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.7;
+  }
+  .memo-table tr:nth-child(even) td { background: #f8faff; }
+  .memo-table .col-no    { width: 5%;  text-align: center; }
+  .memo-table .col-plan  { width: 19%; font-weight: 600; }
+  .memo-table .col-adjust{ width: 20%; }
+  .memo-table .col-reason{ width: 28%; }
+  .memo-table .col-opinion{width: 28%; }
+  .tag-old { color: var(--red); font-size: 12px; font-weight: 600; }
+  .tag-new { color: var(--success); font-size: 12px; font-weight: 600; }
+  .output-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    color: var(--text-muted);
+    gap: 12px;
+  }
+  .output-empty .icon { font-size: 48px; opacity: 0.3; }
+  .output-empty p { font-size: 15px; }
+
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo-badge">กฟผ.</div>
+    <div class="header-title">
+      <h1>ระบบร่าง Resume ผลการดำเนินงาน Flagship</h1>
+      <p>สายงาน รวย. | ฝ่ายแผนยุทธศาสตร์ (อผย.)</p>
+    </div>
+  </div>
+
+</header>
+
+<!-- ===== FORM TAB ===== -->
+<div id="tab-form">
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <div class="section-label">📅 ข้อมูลทั่วไป</div>
+
+      <div class="form-group" style="margin-bottom:12px;">
+        <label style="font-size:11px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:1px;">เลขที่เอกสาร</label>
+        <input type="text" id="doc-num-full" 
+          style="font-weight:600;font-size:13px;background:#fffbe8;border-color:var(--accent);"
+          placeholder="คบ.กฟผ. พ/X/69/X.X" 
+          oninput="syncDocNumFromFull()" />
+        <div style="font-size:11px;color:var(--text-muted);margin-top:3px;">หรือกรอกแยกด้านล่างแล้วระบบจะสร้างให้อัตโนมัติ</div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>ครั้งที่ประชุม</label>
+          <input type="text" id="meeting-num" placeholder="เช่น 4-1" oninput="updateDocNum()" />
+        </div>
+        <div class="form-group">
+          <label>วาระที่</label>
+          <input type="text" id="agenda-num" placeholder="เช่น 4.3" oninput="updateDocNum()" />
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>เดือนที่รายงาน</label>
+          <select id="report-month">
+            <option value="">-- เลือกเดือน --</option>
+            <option value="มกราคม">มกราคม</option>
+            <option value="กุมภาพันธ์">กุมภาพันธ์</option>
+            <option value="มีนาคม">มีนาคม</option>
+            <option value="เมษายน">เมษายน</option>
+            <option value="พฤษภาคม">พฤษภาคม</option>
+            <option value="มิถุนายน">มิถุนายน</option>
+            <option value="กรกฎาคม">กรกฎาคม</option>
+            <option value="สิงหาคม">สิงหาคม</option>
+            <option value="กันยายน">กันยายน</option>
+            <option value="ตุลาคม">ตุลาคม</option>
+            <option value="พฤศจิกายน">พฤศจิกายน</option>
+            <option value="ธันวาคม">ธันวาคม</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>ปี พ.ศ.</label>
+          <select id="report-year" onchange="updateDocNum()"></select>
+        </div>
+      </div>
+
+      <div class="row-2">
+        <div class="form-group">
+          <label>แผนที่ดำเนินได้ตามแผน</label>
+          <input type="number" id="on-track" placeholder="เช่น 9" min="0" max="9" />
+        </div>
+        <div class="form-group">
+          <label>แผนที่ล่าช้า</label>
+          <input type="number" id="delayed" placeholder="เช่น 0" min="0" max="9" />
+        </div>
+      </div>
+
+      <!-- TYPE TOGGLE -->
+      <div class="section-label" style="margin-top:8px;">📝 ประเภทบันทึก</div>
+      <div class="type-toggle">
+        <button class="type-btn active" id="type-normal" onclick="setType('normal')">รายงานปกติ</button>
+        <button class="type-btn" id="type-adjust" onclick="setType('adjust')">+ ปรับปรุงแผน</button>
+      </div>
+
+      <!-- PLAN ADJUSTMENT (hidden by default) -->
+      <div class="adjust-section hidden" id="adjust-section">
+        <div class="section-label">🔧 รายการปรับปรุงแผน</div>
+
+        <div id="plan-cards-container"></div>
+        <button class="btn-add" onclick="addPlanCard()">+ เพิ่มแผน/โครงการ</button>
+
+        <!-- PA สายงาน optional -->
+        <div style="margin-top:14px;">
+          <label style="font-size:13px;font-weight:600;display:flex;align-items:center;gap:8px;cursor:pointer;">
+            <input type="checkbox" id="has-pa" onchange="togglePA()" style="width:auto;" />
+            มีการปรับปรุง PA สายงาน ด้วย
+          </label>
+        </div>
+        <div id="pa-section" class="hidden" style="margin-top:10px;">
+          <div class="form-group">
+            <label>ตัวชี้วัดที่ขอปรับ (PA สายงาน)</label>
+            <textarea id="pa-detail" placeholder="เช่น Mae Moh Smart City; แผนงานพัฒนาแม่เมาะสู่เมืองเศรษฐกิจคาร์บอนต่ำ&#10;สายงาน รวช. เสนอขอปรับปรุงค่าเกณฑ์วัด งวดสิ้นปี 2568"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" onclick="generateMemo()">⚡ สร้างบันทึก</button>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="output-panel">
+      <div class="output-toolbar">
+        <h2>ผลลัพธ์ — ร่างบันทึก</h2>
+        <div class="toolbar-actions">
+          <button class="btn-clear" onclick="clearOutput()">ล้าง</button>
+          <button class="btn-docx" id="docx-btn" onclick="exportDocx()">📄 Export .docx</button>
+          <button class="btn-pdf" id="pdf-btn" onclick="exportPdf()">🔴 Export PDF</button>
+          <button class="btn-copy" id="copy-btn" onclick="copyOutput()">📋 คัดลอกทั้งหมด</button>
+        </div>
+      </div>
+      <div class="output-box" id="output-box">
+        <div class="output-empty">
+          <div class="icon">📄</div>
+          <p>กรอกข้อมูลแล้วกด "สร้างบันทึก"</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<script>
+  // ===== STATE =====
+  let memoType = 'normal';
+  let planCount = 0;
+
+  // ===== FORM HELPERS =====
+  // ===== INIT YEAR =====
+  (function initYear() {
+    const sel = document.getElementById('report-year');
+    const currentBE = 2569; // default
+    for (let y = currentBE - 2; y <= currentBE + 3; y++) {
+      const opt = document.createElement('option');
+      opt.value = y;
+      opt.textContent = y;
+      if (y === currentBE) opt.selected = true;
+      sel.appendChild(opt);
+    }
+  })();
+
+  function getYear() { return parseInt(document.getElementById('report-year').value) || 2569; }
+  function getPlanYear() { const y = getYear(); return y + '-' + (y+4); }
+  function getYearShort() { return String(getYear()).slice(2); }
+
+  let docNumManuallyEdited = false;
+
+  function syncDocNumFromFull() {
+    docNumManuallyEdited = true;
+  }
+
+  function updateDocNum() {
+    const m = document.getElementById('meeting-num').value || 'X';
+    const a = document.getElementById('agenda-num').value || 'X';
+    const ys = getYearShort();
+    if (!docNumManuallyEdited) {
+      document.getElementById('doc-num-full').value = `คบ.กฟผ. พ/${m}/${ys}/${a}`;
+    }
+  }
+
+  function setType(t) {
+    memoType = t;
+    document.getElementById('type-normal').classList.toggle('active', t==='normal');
+    document.getElementById('type-adjust').classList.toggle('active', t==='adjust');
+    document.getElementById('adjust-section').classList.toggle('hidden', t==='normal');
+    if (t === 'adjust' && planCount === 0) addPlanCard();
+  }
+
+  function togglePA() {
+    const checked = document.getElementById('has-pa').checked;
+    document.getElementById('pa-section').classList.toggle('hidden', !checked);
+  }
+
+  let planId = 0;
+  function addPlanCard() {
+    planId++;
+    planCount++;
+    const container = document.getElementById('plan-cards-container');
+    const div = document.createElement('div');
+    div.className = 'plan-card';
+    div.id = 'plan-card-' + planId;
+    div.innerHTML = `
+      <div class="plan-card-header">
+        <span class="plan-card-num">แผนที่ ${planCount}</span>
+        <button class="btn-remove" onclick="removePlanCard(${planId})" title="ลบ">✕</button>
+      </div>
+      <div class="form-group">
+        <label>ชื่อแผนปฏิบัติการ / แผนงาน / โครงการ</label>
+        <input type="text" placeholder="เช่น Green Energy Trading" class="plan-name" />
+      </div>
+      <div class="form-group">
+        <label>ประเภทการปรับ</label>
+        <select class="plan-type" onchange="updatePlanForm(this, ${planId})">
+          <option value="target">ปรับค่าเป้าหมาย</option>
+          <option value="owner">ปรับผู้รับผิดชอบ</option>
+          <option value="cancel">ยกเลิกแผน</option>
+        </select>
+      </div>
+      <div class="plan-target-fields">
+        <div class="form-group">
+          <label>เป้าหมาย/กิจกรรมเดิม</label>
+          <textarea placeholder="ระบุเป้าหมายเดิม" class="plan-old"></textarea>
+        </div>
+        <div class="form-group">
+          <label>เป้าหมาย/กิจกรรมใหม่</label>
+          <textarea placeholder="ระบุเป้าหมายใหม่" class="plan-new"></textarea>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>เหตุผลในการปรับ</label>
+        <textarea placeholder="อธิบายสาเหตุและปัจจัย" class="plan-reason" style="min-height:80px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label>ความเห็น อผย.</label>
+        <textarea placeholder="ความเห็นของฝ่ายแผนยุทธศาสตร์" class="plan-opinion" style="min-height:80px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label>ตัวชี้วัดเชิงยุทธศาสตร์ที่เกี่ยวข้อง (ถ้ามี)</label>
+        <input type="text" placeholder="เช่น SO1, SO4" class="plan-kpi" />
+      </div>
+    `;
+    container.appendChild(div);
+  }
+
+  function removePlanCard(id) {
+    const el = document.getElementById('plan-card-' + id);
+    if (el) { el.remove(); planCount--; }
+  }
+
+  function updatePlanForm(sel, id) {
+    const card = document.getElementById('plan-card-' + id);
+    const targetFields = card.querySelector('.plan-target-fields');
+    targetFields.classList.toggle('hidden', sel.value !== 'target');
+  }
+
+  // ===== GENERATE MEMO =====
+  function generateMemo() {
+    const month = document.getElementById('report-month').value;
+    const onTrack = document.getElementById('on-track').value;
+    const delayed = document.getElementById('delayed').value;
+    const meetingNum = document.getElementById('meeting-num').value || 'X';
+    const agendaNum = document.getElementById('agenda-num').value || 'X';
+    const year = getYear();
+
+    if (!month) { alert('กรุณาเลือกเดือนที่รายงาน'); return; }
+    if (onTrack === '' && delayed === '') { alert('กรุณากรอกจำนวนแผนที่ดำเนินการได้/ล่าช้า'); return; }
+
+    const total = (parseInt(onTrack)||0) + (parseInt(delayed)||0);
+    const plans = collectPlanData();
+    const paData = document.getElementById('has-pa') && document.getElementById('has-pa').checked
+      ? document.getElementById('pa-detail').value : '';
+
+    const { html, plain } = buildMemo({
+      month, year, onTrack: parseInt(onTrack)||0, delayed: parseInt(delayed)||0, total,
+      meetingNum, agendaNum, plans, paData, type: memoType
+    });
+
+    const box = document.getElementById('output-box');
+    box.innerHTML = html;
+    box._plainText = plain;
+  }
+
+  function collectPlanData() {
+    const cards = document.querySelectorAll('.plan-card');
+    return Array.from(cards).map(card => ({
+      name: card.querySelector('.plan-name')?.value || '',
+      type: card.querySelector('.plan-type')?.value || 'target',
+      old: card.querySelector('.plan-old')?.value || '',
+      newVal: card.querySelector('.plan-new')?.value || '',
+      reason: card.querySelector('.plan-reason')?.value || '',
+      opinion: card.querySelector('.plan-opinion')?.value || '',
+      kpi: card.querySelector('.plan-kpi')?.value || '',
+    }));
+  }
+
+  function esc(s) {
+    return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+  }
+
+  function buildMemo({ month, year, onTrack, delayed, total, meetingNum, agendaNum, plans, paData, type }) {
+    const planYears = year + '-' + (year+4);
+    const prevYear = year - 1;
+    const yearShort = String(year).slice(2);
+    const hasAdjust = type === 'adjust' && plans.length > 0;
+    const delayedText = delayed > 0
+      ? `โดยดำเนินการได้ตามแผน จำนวน ${onTrack} แผน และล่าช้ากว่าแผน จำนวน ${delayed} แผน`
+      : `โดยดำเนินการได้ตามแผนทั้งหมด ${onTrack} แผน`;
+
+    let titleLine = `ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}`;
+    if (hasAdjust) titleLine += `\nและการปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}`;
+    if (paData) titleLine += `\nและตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}`;
+
+    // ===== PLAIN TEXT =====
+    let plain = `เรื่องเสนอเพื่อพิจารณา\n`;
+    const docNumDisplay = document.getElementById('doc-num-full')?.value || `คบ.กฟผ. พ/${meetingNum}/${yearShort}/${agendaNum}`;
+    plain += `เอกสาร ${docNumDisplay}\n`;
+    plain += `${titleLine}\n\n`;
+    plain += `1. ความเป็นมา\n`;
+    plain += `1.1 การรายงานผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year}\n`;
+    plain += `\tคบ.กฟผ. ในการประชุม ครั้งที่ 2-1/2568 เมื่อวันที่ 5 กุมภาพันธ์ 2568 วาระที่ 4.3 มีมติเห็นชอบให้นำผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year} จำนวน 9 แผน เพื่อใช้ในการรายงานผลการดำเนินงานต่อ คบ.กฟผ. ผ่าน ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เป็นรายเดือน\n`;
+
+    if (hasAdjust) {
+      plain += `\n1.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}\n\tคณะกรรมการ กฟผ. ในการประชุม ครั้งที่ 9/2567 เมื่อวันที่ 31 กรกฎาคม 2567 วาระที่ 3.2 มีมติเห็นชอบหลักเกณฑ์การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} โดยให้ คบ.กฟผ. เป็นผู้พิจารณาให้ความเห็นชอบในกรณีดังต่อไปนี้ 1) การเพิ่ม/ลด แผนปฏิบัติการ และแผนงาน/โครงการ และการปรับเป้ากลยุทธ์ แผนปฏิบัติการ และแผนงาน/โครงการ ที่ไม่กระทบเป้ายุทธศาสตร์ และ 2) การปรับชื่อของแผนปฏิบัติการ และแผนงาน/โครงการ\n`;
+    }
+    if (paData) {
+      plain += `\n1.${hasAdjust?3:2} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year} ที่ถ่ายทอดมาจากแผนวิสาหกิจ กฟผ.\n\tคบ.กฟผ. ในการประชุม ครั้งที่ 11-1/2567 เมื่อวันที่ 22 พฤศจิกายน 2567 วาระที่ 4.8 มีมติเห็นชอบกรอบการประเมินผล PA สายงาน ประจำปี ${year}\n`;
+    }
+    plain += hasAdjust
+      ? `\n\tสายงาน รวย. โดยฝ่ายแผนยุทธศาสตร์ (อผย.) จึงขอเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year} และการปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}\n`
+      : `\n\tสายงาน รวย. โดยฝ่ายแผนยุทธศาสตร์ (อผย.) จึงขอเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}\n`;
+
+    plain += `\n2. การดำเนินการ\n`;
+    const sectionNum = hasAdjust ? '2.1' : '2';
+    plain += `${sectionNum} ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}\n`;
+    plain += `\tผลการดำเนินงานของ Flagship จำนวน ${total} แผน ที่ส่งผลต่อการดำเนินงานตามแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} ณ เดือน${month} ${year} ${delayedText} สามารถดูรายละเอียดเพิ่มเติมได้ที่ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เมนู Common Report หัวข้อ รายงานผลการดำเนินงานตามยุทธศาสตร์ กฟผ.\n`;
+
+    if (hasAdjust) {
+      plain += `\n2.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}\n\tเสนอปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} จำนวน ${plans.length} แผน มีรายละเอียด ดังนี้\n\n`;
+      plain += `แผนปฏิบัติการ/แผนงาน/โครงการ\tปรับค่าเป้าหมาย/กิจกรรม\tเหตุผล\tความเห็น อผย.\n`;
+      plans.forEach(p => {
+        let adjustCol = '';
+        if (p.type === 'target') adjustCol = `เป้าหมาย/กิจกรรมเดิม: ${p.old}\nเป้าหมาย/กิจกรรมใหม่: ${p.newVal}`;
+        else if (p.type === 'owner') adjustCol = `ผู้รับผิดชอบเดิม: ${p.old}\nผู้รับผิดชอบใหม่: ${p.newVal}`;
+        else if (p.type === 'cancel') adjustCol = `ยกเลิกแผนปฏิบัติการในปี ${year}`;
+        plain += `${p.name}\t${adjustCol}\t${p.reason}\t${p.opinion}\n`;
+      });
+    }
+
+    if (paData) {
+      plain += `\n2.${hasAdjust?3:2} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตาม PA สายงาน ประจำปี ${year}\n${paData}\n`;
+    }
+
+    plain += `\n3. ข้อเสนอเพื่อพิจารณา\n\tเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบ ดังนี้\n`;
+    plain += `3.1 ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}\n`;
+    if (hasAdjust) {
+      plain += `3.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears} โดยไม่กระทบเป้ายุทธศาสตร์ จำนวน ${plans.length} แผน ได้แก่\n`;
+      plans.forEach(p => { plain += `\t• ${p.name}\n`; });
+    }
+    if (paData) {
+      const pn = hasAdjust ? '3.3' : '3.2';
+      plain += `${pn} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}\n`;
+    }
+    plain += `\n\tจึงเรียนมาเพื่อโปรดพิจารณา\n\n\t\t\t\t\tรองผู้ว่าการยุทธศาสตร์ (รวย.)`;
+
+    // ===== HTML =====
+    let html = `<div class="memo-text">`;
+    html += `<strong>เรื่องเสนอเพื่อพิจารณา</strong>\n`;
+    html += `<strong>เอกสาร ${esc(docNumDisplay)}</strong>\n`;
+    html += `<strong>${esc(titleLine)}</strong>\n\n`;
+
+    html += `<strong>1. ความเป็นมา</strong>\n`;
+    html += `<strong>1.1 การรายงานผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year}</strong>\n`;
+    html += `\tคบ.กฟผ. ในการประชุม ครั้งที่ 2-1/2568 เมื่อวันที่ 5 กุมภาพันธ์ 2568 วาระที่ 4.3 มีมติเห็นชอบให้นำผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year} จำนวน 9 แผน เพื่อใช้ในการรายงานผลการดำเนินงานต่อ คบ.กฟผ. ผ่าน ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เป็นรายเดือน\n`;
+
+    if (hasAdjust) {
+      html += `\n<strong>1.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}</strong>\n\tคณะกรรมการ กฟผ. ในการประชุม ครั้งที่ 9/2567 เมื่อวันที่ 31 กรกฎาคม 2567 วาระที่ 3.2 มีมติเห็นชอบหลักเกณฑ์การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} โดยให้ คบ.กฟผ. เป็นผู้พิจารณาให้ความเห็นชอบในกรณีดังต่อไปนี้ 1) การเพิ่ม/ลด แผนปฏิบัติการ และแผนงาน/โครงการ และการปรับเป้ากลยุทธ์ แผนปฏิบัติการ และแผนงาน/โครงการ ที่ไม่กระทบเป้ายุทธศาสตร์ และ 2) การปรับชื่อของแผนปฏิบัติการ และแผนงาน/โครงการ\n`;
+    }
+    if (paData) {
+      html += `\n<strong>1.${hasAdjust?3:2} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}</strong>\n\tคบ.กฟผ. ในการประชุม ครั้งที่ 11-1/2567 เมื่อวันที่ 22 พฤศจิกายน 2567 วาระที่ 4.8 มีมติเห็นชอบกรอบการประเมินผล PA สายงาน ประจำปี ${year}\n`;
+    }
+
+    html += hasAdjust
+      ? `\n\tสายงาน รวย. โดยฝ่ายแผนยุทธศาสตร์ (อผย.) จึงขอเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year} และการปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}\n`
+      : `\n\tสายงาน รวย. โดยฝ่ายแผนยุทธศาสตร์ (อผย.) จึงขอเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}\n`;
+
+    html += `\n<strong>2. การดำเนินการ</strong>\n`;
+    html += `<strong>${sectionNum} ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}</strong>\n`;
+    html += `\tผลการดำเนินงานของ Flagship จำนวน ${total} แผน ที่ส่งผลต่อการดำเนินงานตามแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} ณ เดือน${month} ${year} ${delayedText} สามารถดูรายละเอียดเพิ่มเติมได้ที่ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เมนู Common Report หัวข้อ รายงานผลการดำเนินงานตามยุทธศาสตร์ กฟผ.\n`;
+
+    if (hasAdjust) {
+      html += `\n<strong>2.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}</strong>\n\tเสนอปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} จำนวน ${plans.length} แผน มีรายละเอียด ดังนี้\n`;
+      html += `</div>`;
+      html += `<div class="memo-table-wrap"><table class="memo-table">`;
+      html += `<thead><tr>
+        <th class="col-no">มิติ</th>
+        <th class="col-plan">แผนปฏิบัติการ/<br>แผนงาน/โครงการ</th>
+        <th class="col-adjust">ปรับค่าเป้าหมาย/<br>กิจกรรม</th>
+        <th class="col-reason">เหตุผล</th>
+        <th class="col-opinion">ความเห็น อผย.</th>
+      </tr></thead><tbody>`;
+
+      plans.forEach((p, i) => {
+        let adjustCell = '';
+        if (p.type === 'target') {
+          adjustCell = `<span class="tag-old">เป้าหมาย/กิจกรรมเดิม</span><br>${esc(p.old)}<br><br><span class="tag-new">เป้าหมาย/กิจกรรมใหม่</span><br>${esc(p.newVal)}`;
+        } else if (p.type === 'owner') {
+          adjustCell = `<span class="tag-old">ผู้รับผิดชอบเดิม</span><br>${esc(p.old)}<br><br><span class="tag-new">ผู้รับผิดชอบใหม่</span><br>${esc(p.newVal)}`;
+        } else if (p.type === 'cancel') {
+          adjustCell = `<span style="color:var(--red);font-weight:600;">ยกเลิกแผนปฏิบัติการในปี ${year}</span>`;
+        }
+        html += `<tr>
+          <td class="col-no" style="text-align:center;vertical-align:top;">${i+1}</td>
+          <td class="col-plan">${esc(p.name)}${p.kpi ? `<br><small style="color:var(--text-muted);">ตัวชี้วัด: ${esc(p.kpi)}</small>` : ''}</td>
+          <td>${adjustCell}</td>
+          <td>${esc(p.reason)}</td>
+          <td>${esc(p.opinion)}</td>
+        </tr>`;
+      });
+
+      html += `</tbody></table></div>`;
+      html += `<div class="memo-text">`;
+    }
+
+    if (paData) {
+      html += `\n<strong>2.${hasAdjust?3:2} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตาม PA สายงาน ประจำปี ${year}</strong>\n${esc(paData)}\n`;
+    }
+
+    html += `\n<strong>3. ข้อเสนอเพื่อพิจารณา</strong>\n\tเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบ ดังนี้\n`;
+    html += `3.1 ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}\n`;
+    if (hasAdjust) {
+      html += `3.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears} โดยไม่กระทบเป้ายุทธศาสตร์ จำนวน ${plans.length} แผน ได้แก่\n`;
+      plans.forEach(p => { html += `\t• ${esc(p.name)}\n`; });
+    }
+    if (paData) {
+      const pn = hasAdjust ? '3.3' : '3.2';
+      html += `${pn} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}\n`;
+    }
+    html += `\n\tจึงเรียนมาเพื่อโปรดพิจารณา\n\n\t\t\t\t\tรองผู้ว่าการยุทธศาสตร์ (รวย.)`;
+    html += `</div>`;
+
+    return { html, plain };
+  }
+
+  // ===== COPY =====
+  function copyOutput() {
+    const box = document.getElementById('output-box');
+    const text = box._plainText || '';
+    if (!text || text.includes('กรอกข้อมูล')) { alert('กรุณาสร้างบันทึกก่อน'); return; }
+    const btn = document.getElementById('copy-btn');
+    // Try modern clipboard API first, fallback to execCommand
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = '✅ คัดลอกแล้ว'; btn.classList.add('copied');
+        setTimeout(() => { btn.textContent = '📋 คัดลอกทั้งหมด'; btn.classList.remove('copied'); }, 2000);
+      }).catch(() => copyFallback(text, btn));
+    } else {
+      copyFallback(text, btn);
+    }
+  }
+  function copyFallback(text, btn) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);
+    ta.focus(); ta.select();
+    try {
+      document.execCommand('copy');
+      btn.textContent = '✅ คัดลอกแล้ว'; btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = '📋 คัดลอกทั้งหมด'; btn.classList.remove('copied'); }, 2000);
+    } catch(e) { alert('ไม่สามารถคัดลอกได้ กรุณา Ctrl+A แล้ว Ctrl+C ด้วยตัวเอง'); }
+    document.body.removeChild(ta);
+  }
+
+
+  // ===== EXPORT DOCX =====
+  async function exportDocx() {
+    const box = document.getElementById('output-box');
+    const plainText = box._plainText || '';
+    if (!plainText || plainText.includes('กรอกข้อมูล')) { alert('กรุณาสร้างบันทึกก่อน'); return; }
+
+    const btn = document.getElementById('docx-btn');
+    btn.disabled = true;
+    btn.textContent = '⏳ กำลังสร้าง...';
+
+    try {
+      const month = document.getElementById('report-month').value;
+      const year = getYear();
+      const onTrack = parseInt(document.getElementById('on-track').value) || 0;
+      const delayed = parseInt(document.getElementById('delayed').value) || 0;
+      const meetingNum = document.getElementById('meeting-num').value || 'X';
+      const agendaNum = document.getElementById('agenda-num').value || 'X';
+      const plans = collectPlanData();
+      const planYears = year + '-' + (year+4);
+      const yearShort = String(year).slice(2);
+      const hasAdjust = memoType === 'adjust' && plans.length > 0;
+      const total = onTrack + delayed;
+      const delayedText = delayed > 0
+        ? `โดยดำเนินการได้ตามแผน จำนวน ${onTrack} แผน และล่าช้ากว่าแผน จำนวน ${delayed} แผน`
+        : `โดยดำเนินการได้ตามแผนทั้งหมด ${onTrack} แผน`;
+      const paData = document.getElementById('has-pa')?.checked
+        ? document.getElementById('pa-detail')?.value || '' : '';
+
+      await buildAndDownloadDocx({ month, year, meetingNum, agendaNum, planYears, yearShort,
+        total, onTrack, delayed, delayedText, plans, hasAdjust, plainText, paData });
+
+    } catch(e) {
+      alert('เกิดข้อผิดพลาด: ' + e.message);
+    }
+    btn.disabled = false;
+    btn.textContent = '📄 Export .docx';
+  }
+
+  async function buildAndDownloadDocx({ month, year, meetingNum, agendaNum, planYears,
+    yearShort, total, onTrack, delayed, delayedText, plans, hasAdjust, plainText, paData }) {
+
+    const docNumDisplay = document.getElementById('doc-num-full')?.value || `คบ.กฟผ. พ/${meetingNum}/${yearShort}/${agendaNum}`;
+    const FONT = 'TH SarabunPSK';
+    const SZ_BODY = '32';  // 16pt
+    const SZ_TBL  = '28';  // 14pt
+
+    // Escape XML special chars
+    function x(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+    // Run properties: font + optional bold + size + Thai language
+    function rp(bold, sz) {
+      const b = bold ? '<w:b/><w:bCs/>' : '';
+      return `<w:rPr><w:rFonts w:ascii="${FONT}" w:hAnsi="${FONT}" w:cs="${FONT}" w:eastAsia="${FONT}"/>${b}<w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/><w:lang w:val="th-TH"/></w:rPr>`;
+    }
+
+    // Paragraph: text, alignment (both/center/right), indent (left twips), bold, line spacing, before/after
+    function para(text, opts={}) {
+      const jcVal = opts.center ? 'center' : opts.right ? 'right' : 'both';
+      const jc = `<w:jc w:val="${jcVal}"/>`;
+      const ind = opts.ind ? `<w:ind w:left="${opts.ind}" w:firstLine="0"/>` : '';
+      const line = opts.line || 480; // double spacing = 480
+      const before = opts.before !== undefined ? opts.before : 0;
+      const after = opts.after !== undefined ? opts.after : 80;
+      const sp = `<w:spacing w:before="${before}" w:after="${after}" w:line="${line}" w:lineRule="auto"/>`;
+      const bold = !!opts.bold;
+      const sz = opts.sz || SZ_BODY;
+
+      if (!text && text !== 0) {
+        return `<w:p><w:pPr>${jc}${ind}${sp}</w:pPr></w:p>`;
+      }
+      // Handle multi-line via \n
+      const lines = String(text).split('\n');
+      if (lines.length > 1 && !opts._single) {
+        return lines.map(l => para(l, {...opts, _single:true})).join('');
+      }
+      return `<w:p><w:pPr>${jc}${ind}${sp}</w:pPr><w:r>${rp(bold,sz)}<w:t xml:space="preserve">${x(String(text))}</w:t></w:r></w:p>`;
+    }
+
+    // Table cell: multi-line text (split by \n → <w:br/>), width in twips, optional bg fill
+    function tc(text, width, opts={}) {
+      const sz = opts.sz || SZ_TBL;
+      const bold = !!opts.bold;
+      const fill = opts.fill || 'FFFFFF';
+      const jcVal = opts.center ? 'center' : 'both';
+      const lines = (text||'').split('\n');
+      const runs = lines.map((l, i) => {
+        const br = i < lines.length - 1 ? '<w:br/>' : '';
+        return `<w:r>${rp(bold,sz)}<w:t xml:space="preserve">${x(l)}</w:t>${br}</w:r>`;
+      }).join('');
+      const colorFill = opts.headerFill
+        ? `<w:shd w:val="clear" w:color="auto" w:fill="${opts.headerFill}"/>`
+        : `<w:shd w:val="clear" w:color="auto" w:fill="${fill}"/>`;
+      const colorRun = opts.whiteText
+        ? `<w:color w:val="FFFFFF"/>`
+        : '';
+      const runsWithColor = opts.whiteText
+        ? lines.map((l, i) => {
+            const br = i < lines.length - 1 ? '<w:br/>' : '';
+            return `<w:r><w:rPr><w:rFonts w:ascii="${FONT}" w:hAnsi="${FONT}" w:cs="${FONT}" w:eastAsia="${FONT}"/>${bold?'<w:b/><w:bCs/>':''}<w:color w:val="FFFFFF"/><w:sz w:val="${sz}"/><w:szCs w:val="${sz}"/></w:rPr><w:t xml:space="preserve">${x(l)}</w:t>${br}</w:r>`;
+          }).join('')
+        : runs;
+      return `<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${colorFill}<w:tcMar><w:top w:w="60" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="60" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tcMar></w:tcPr><w:p><w:pPr><w:jc w:val="${jcVal}"/><w:spacing w:before="0" w:after="40" w:line="360" w:lineRule="auto"/></w:pPr>${runsWithColor}</w:p></w:tc>`;
+    }
+
+    const bdr = `<w:tblBorders>
+      <w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+      <w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+      <w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+      <w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+      <w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+      <w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/>
+    </w:tblBorders>`;
+
+    // 5-column layout matching sample: มิติ(no / sequential), แผนปฏิบัติการ, ปรับค่าเป้าหมาย, เหตุผล, ความเห็น อผย.
+    // Total content width ≈ 9072 (A4 with 30mm left, 25mm right margins)
+    // Col widths: 500, 1800, 2100, 2500, 2172 = 9072
+    const CW = [500, 1800, 2100, 2500, 2172];
+    const TBL_W = CW.reduce((a,b)=>a+b,0);
+
+    let body = '';
+
+    // ─── HEADER ───
+    body += para('เรื่องเสนอเพื่อพิจารณา', {bold:true, center:true, after:60, line:480});
+    body += para(`เอกสาร ${docNumDisplay}`, {bold:true, center:true, after:60, line:480});
+    body += para(`ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}`, {bold:true, center:true, after:hasAdjust?40:120, line:480, _single:true});
+    if (hasAdjust) {
+      body += para(`และการปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}`, {bold:true, center:true, after:120, line:480, _single:true});
+    }
+
+    // ─── 1. ความเป็นมา ───
+    if (hasAdjust) {
+      body += para('1. ความเป็นมา', {bold:true, before:60, after:40});
+      body += para(`1.1 การรายงานผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year}`, {bold:true, ind:360, after:40, _single:true});
+      body += para(`คบ.กฟผ. ในการประชุม ครั้งที่ 2-1/${year} เมื่อวันที่ 5 กุมภาพันธ์ ${year} วาระที่ 4.3 มีมติเห็นชอบให้นำผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year} จำนวน 9 แผน เพื่อใช้ในการรายงานผลการดำเนินงานต่อ คบ.กฟผ. ผ่าน ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เป็นรายเดือน`, {ind:720, after:40, _single:true});
+      body += para(`1.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}`, {bold:true, ind:360, before:40, after:40, _single:true});
+      body += para(`คณะกรรมการ กฟผ. ในการประชุม ครั้งที่ 9/2567 เมื่อวันที่ 31 กรกฎาคม 2567 วาระที่ 3.2 มีมติเห็นชอบหลักเกณฑ์การปรับปรุงแผนวิสาหกิจ กฟผ. ปี 2568 โดยให้ คบ.กฟผ. เป็นผู้พิจารณาให้ความเห็นชอบในกรณีดังต่อไปนี้ 1) การเพิ่ม/ลด แผนปฏิบัติการ และแผนงาน/โครงการ และการปรับเป้ากลยุทธ์แผนปฏิบัติการ และแผนงาน/โครงการ ที่ไม่กระทบเป้ายุทธศาสตร์ และ 2) การปรับชื่อของแผนปฏิบัติการ และแผนงาน/โครงการ`, {ind:720, after:40, _single:true});
+    } else {
+      body += para('1. ความเป็นมา', {bold:true, before:60, after:40});
+      body += para(`คบ.กฟผ. ในการประชุม ครั้งที่ 2-1/${year} เมื่อวันที่ 5 กุมภาพันธ์ ${year} วาระที่ 4.3 มีมติเห็นชอบให้นำผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ปี ${year} จำนวน 9 แผน เพื่อใช้ในการรายงานผลการดำเนินงานต่อ คบ.กฟผ. ผ่าน ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เป็นรายเดือน`, {ind:360, after:40, _single:true});
+    }
+    if (paData) {
+      const paN = hasAdjust ? '1.3' : '1.2';
+      body += para(`${paN} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}`, {bold:true, ind:360, before:40, after:40, _single:true});
+      body += para(`คบ.กฟผ. ในการประชุม ครั้งที่ 11-1/2567 เมื่อวันที่ 22 พฤศจิกายน 2567 วาระที่ 4.8 มีมติเห็นชอบกรอบการประเมินผล PA สายงาน ประจำปี ${year}`, {ind:720, after:40, _single:true});
+    }
+    body += para(`สายงาน รวย. โดย ฝ่ายแผนยุทธศาสตร์ (อผย.) จึงขอเสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}${hasAdjust?' และการปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. '+planYears:''}`, {ind:360, before:40, after:120, _single:true});
+
+    // ─── 2. การดำเนินการ ───
+    body += para(`2${hasAdjust?' การดำเนินการ':'. การดำเนินการ'}`, {bold:true, before:40, after:40});
+    const s21 = hasAdjust ? '2.1' : '';
+    const pfx = hasAdjust ? `${s21} ` : '';
+    body += para(`${pfx}ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}`, {bold:true, ind:hasAdjust?360:0, after:40, _single:true});
+    body += para(`ผลการดำเนินงานของ Flagship จำนวน ${total} แผน ที่ส่งผลต่อการดำเนินงานตามแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${year} ณ เดือน${month} ${year} ${delayedText} สามารถดูรายละเอียดเพิ่มเติมได้ที่ระบบ Enterprise Performance Management (EPM) : https://epm.egat.co.th เมนู Common Report หัวข้อ รายงานผลการดำเนินงานตามยุทธศาสตร์ กฟผ.`, {ind:hasAdjust?720:360, after:hasAdjust?80:120, _single:true});
+
+    if (hasAdjust) {
+      body += para(`2.2 การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears}`, {bold:true, ind:360, before:40, after:40, _single:true});
+      body += para(`เสนอปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears} จำนวน ${plans.length} แผนงาน/โครงการ มีรายละเอียด ดังนี้`, {ind:720, after:80, _single:true});
+
+      // Table: 5 cols
+      body += `<w:tbl>`;
+      body += `<w:tblPr><w:tblW w:w="${TBL_W}" w:type="dxa"/>${bdr}<w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="100" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="100" w:type="dxa"/></w:tblCellMar></w:tblPr>`;
+      body += `<w:tblGrid>${CW.map(w=>`<w:gridCol w:w="${w}"/>`).join('')}</w:tblGrid>`;
+
+      // Header row
+      const HDR = '#1F3864';
+      body += `<w:tr>`;
+      ['มิติ', 'แผนปฏิบัติการ\nแผนงาน/โครงการ', 'ปรับค่าเป้าหมาย\nกิจกรรม', 'เหตุผล', 'ความเห็น อผย.'].forEach((h,i) => {
+        body += tc(h, CW[i], {sz:SZ_TBL, bold:true, center:true, headerFill:'1F3864', whiteText:true});
+      });
+      body += `</w:tr>`;
+
+      // Data rows
+      plans.forEach((p, idx) => {
+        let adj = '';
+        if (p.type === 'target') {
+          adj = `เป้าหมาย/กิจกรรมเดิม\n${p.old}\n\nเป้าหมาย/กิจกรรมใหม่\n${p.newVal}`;
+        } else if (p.type === 'owner') {
+          adj = `ผู้รับผิดชอบเดิม\n${p.old}\n\nผู้รับผิดชอบใหม่\n${p.newVal}`;
+        } else {
+          adj = `ยกเลิกแผนปฏิบัติการในปี ${year}`;
+        }
+        const fill = idx % 2 === 1 ? 'F0F3F8' : 'FFFFFF';
+        const nameWithKpi = p.name + (p.kpi ? '\n('+p.kpi+')' : '');
+        body += `<w:tr>`;
+        body += tc(String(idx+1), CW[0], {sz:SZ_TBL, center:true, fill});
+        body += tc(nameWithKpi, CW[1], {sz:SZ_TBL, fill});
+        body += tc(adj, CW[2], {sz:SZ_TBL, fill});
+        body += tc(p.reason, CW[3], {sz:SZ_TBL, fill});
+        body += tc(p.opinion, CW[4], {sz:SZ_TBL, fill});
+        body += `</w:tr>`;
+      });
+      body += `</w:tbl>`;
+      body += para('', {after:80});
+    }
+
+    if (paData) {
+      const paS = hasAdjust ? '2.3' : '2.2';
+      body += para(`${paS} การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตาม PA สายงาน ประจำปี ${year}`, {bold:true, ind:360, before:40, after:40, _single:true});
+      body += para(paData, {ind:720, after:80});
+    }
+
+    // ─── 3. ข้อเสนอ ───
+    body += para('3. ข้อเสนอเพื่อพิจารณา', {bold:true, before:40, after:40});
+    body += para('เสนอ คบ.กฟผ. เพื่อพิจารณาให้ความเห็นชอบ ดังนี้', {ind:360, after:40, _single:true});
+    body += para(`     1.  ผลการดำเนินงานของแผนปฏิบัติการสำคัญ (Flagship) ณ เดือน${month} ${year}`, {ind:360, after:40, _single:true});
+    if (hasAdjust) {
+      body += para(`     2.  การปรับปรุงแผนวิสาหกิจ กฟผ. ปี พ.ศ. ${planYears} จำนวน ${plans.length} แผนงาน/โครงการ ได้แก่ ${plans.map(p=>p.name).join(' และ ')}`, {ind:360, after:40, _single:true});
+    }
+    if (paData) {
+      const n = hasAdjust ? 3 : 2;
+      body += para(`     ${n}.  การปรับปรุง/เปลี่ยนแปลงรายละเอียดตัวชี้วัดตามบันทึกข้อตกลงการประเมินผลการดำเนินงานระดับสายงาน (PA สายงาน) ประจำปี ${year}`, {ind:360, after:40, _single:true});
+    }
+
+    body += para('', {after:60});
+    body += para('จึงเรียนมาเพื่อโปรดพิจารณา', {ind:720, after:240});
+    body += para('');
+    body += para('');
+    body += para('รองผู้ว่าการยุทธศาสตร์ (รวย.)', {ind:5040, after:0, _single:true});
+
+    // sectPr: A4, margins ≈ 30mm left/top, 25mm right, 25mm bottom (in twips: 1mm≈56.7)
+    const sectPr = `<w:sectPr>
+  <w:pgSz w:w="11906" w:h="16838"/>
+  <w:pgMar w:top="1701" w:right="1417" w:bottom="1417" w:left="1701" w:header="709" w:footer="709" w:gutter="0"/>
+</w:sectPr>`;
+
+    const xml = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<w:document xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+  xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"
+  xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+  mc:Ignorable="">
+<w:body>${sectPr}
+${body}
+</w:body>
+</w:document>`;
+
+    await downloadDocxFromXml(xml, `Resume_Flagship_${month}_${year}.docx`);
+  }
+
+  async function downloadDocxFromXml(documentXml, filename) {
+    // Load JSZip dynamically
+    await loadScript('https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js');
+
+    const zip = new JSZip();
+    zip.file('[Content_Types].xml', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
+  <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
+  <Default Extension="xml" ContentType="application/xml"/>
+  <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+</Types>`);
+
+    zip.file('_rels/.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
+</Relationships>`);
+
+    zip.file('word/document.xml', documentXml);
+    zip.file('word/_rels/document.xml.rels', `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
+</Relationships>`);
+
+    const blob = await zip.generateAsync({ type: 'blob', mimeType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function loadScript(src) {
+    return new Promise((resolve, reject) => {
+      if (document.querySelector(`script[src="${src}"]`)) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = src; s.onload = resolve; s.onerror = reject;
+      document.head.appendChild(s);
+    });
+  }
+
+
+  // ===== EXPORT PDF =====
+  async function exportPdf() {
+    const box = document.getElementById('output-box');
+    if (!box._plainText || box._plainText.includes('กรอกข้อมูล')) { alert('กรุณาสร้างบันทึกก่อน'); return; }
+    const btn = document.getElementById('pdf-btn');
+    btn.disabled = true; btn.textContent = '⏳ กำลังสร้าง PDF...';
+    try {
+      // Build a print-ready HTML page and use browser print to PDF
+      const month = document.getElementById('report-month').value;
+      const year = getYear();
+      const yearShort = String(year).slice(2);
+      const meetingNum = document.getElementById('meeting-num').value || 'X';
+      const agendaNum = document.getElementById('agenda-num').value || 'X';
+      const docNumDisplay = document.getElementById('doc-num-full')?.value || `คบ.กฟผ. พ/${meetingNum}/${yearShort}/${agendaNum}`;
+
+      // Clone the output HTML and wrap in print-styled page
+      const outputHtml = box.innerHTML;
+
+      const printHtml = `<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>Resume_Flagship_${month}_${year}</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4; margin: 30mm 25mm 25mm 30mm; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'TH SarabunPSK', 'Sarabun', serif; font-size: 16pt; line-height: 1.8; color: #000; background: white; }
+  .memo-text { white-space: pre-wrap; font-size: 16pt; line-height: 2; }
+  strong { font-weight: bold; }
+  .memo-table-wrap { margin: 8pt 0 12pt 0; overflow: visible; }
+  .memo-table { width: 100%; border-collapse: collapse; font-size: 14pt; }
+  .memo-table th { background: #1F3864; color: white; padding: 5pt 6pt; text-align: center; font-weight: bold; border: 1pt solid #000; font-size: 14pt; }
+  .memo-table td { padding: 5pt 6pt; border: 1pt solid #000; vertical-align: top; line-height: 1.6; font-size: 14pt; }
+  .memo-table tr:nth-child(even) td { background: #f0f3f8; }
+  .tag-old { color: #cc0000; font-size: 13pt; font-weight: bold; }
+  .tag-new { color: #006600; font-size: 13pt; font-weight: bold; }
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+${outputHtml}
+</body>
+</html>`;
+
+      const printWin = window.open('', '_blank', 'width=900,height=700');
+      printWin.document.write(printHtml);
+      printWin.document.close();
+      printWin.onload = () => {
+        setTimeout(() => {
+          printWin.focus();
+          printWin.print();
+        }, 800);
+      };
+    } catch(e) { alert('เกิดข้อผิดพลาด: ' + e.message); }
+    btn.disabled = false; btn.textContent = '🔴 Export PDF';
+  }
+
+  function clearOutput() {
+    document.getElementById('output-box').innerHTML = `<div class="output-empty"><div class="icon">📄</div><p>กรอกข้อมูลแล้วกด "สร้างบันทึก"</p></div>`;
+  }
+
+</script>
+</body>
+</html>
